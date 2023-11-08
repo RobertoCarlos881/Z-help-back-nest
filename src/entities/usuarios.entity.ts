@@ -4,7 +4,7 @@ import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateCol
 @Entity()
 export class Usuarios {
     @PrimaryGeneratedColumn()
-    id_usuario: number;
+    id_usuario?: number;
 
     @Column()
     nombre: string;
@@ -28,17 +28,17 @@ export class Usuarios {
     numero_telefonico: string;
 
     @Column()
-    password: string;
+    password?: string;
 
     @Column()
-    foto: string;
+    foto?: string;
 
     @Column({type: 'enum', enum: Roles, default: Roles.user})
     role: Roles;
 
     @CreateDateColumn()
-    created_at: Date;
+    created_at?: Date;
 
     @UpdateDateColumn()
-    updated_at: Date;
+    updated_at?: Date;
 }

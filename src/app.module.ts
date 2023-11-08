@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { Actividad, ActividadCercana, Contactos, Instituciones, Publicacion, PublicacionesGuardadas, RespuestaPublicacion, Usuarios } from './entities/index';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -19,6 +20,12 @@ import { Actividad, ActividadCercana, Contactos, Instituciones, Publicacion, Pub
       database: process.env.NAME_DATABASE,
       entities: [Usuarios, RespuestaPublicacion, Publicacion, PublicacionesGuardadas, Instituciones, Contactos, Actividad, ActividadCercana],
       synchronize: true,
+    }),
+
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SEED,
+      signOptions: { expiresIn: '8760h'}
     }),
 
     AuthModule

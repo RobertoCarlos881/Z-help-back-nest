@@ -20,22 +20,22 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<Partial<Usuarios>> {
+  async create(createUserDto: CreateUserDto): Promise<Usuarios> {
     try {
       const { password, ...userData} = createUserDto;
-      const hashedPassword = bcryptjs.hashSync(password, 10);
       const newUser = this.usuariosRepository.create({
-        password: hashedPassword,
+        password: bcryptjs.hashSync(password, 10),
         ...userData
       });
   
       await this.usuariosRepository.save(newUser);
-      //const {password: _, ...user} = newUser;
-      return newUser;
-
+      const { password: _, created_at, updated_at, ...user } = newUser;
+      return user;
     } catch (error) {    
-      if (error.code === 11000) {
-        throw new BadRequestException(`${createUserDto.email} already exists!`)
+      console.log(error);
+      
+      if (error.code === '23505') {
+        throw new BadRequestException(`El correo que ingresaste ya esta registrado`)
       }
       throw new InternalServerErrorException('Something terrible happen!!')
     }
@@ -45,32 +45,42 @@ export class AuthService {
     const user = await this.create(registerUserDto)
     return {
       user: user,
-      token: this.getJwt({id: user.id_usuario})
+      token: this.getJwt({ id: user.id_usuario})
     };
   }
 
   async login(loginDto: LoginDto) {
     const { email, password } = loginDto;
-    const findOptions: FindOneOptions<Usuarios> = {
-      where: {email}
-    }
-    const user = await this.usuariosRepository.findOne(findOptions);
-
+    const user = await this.usuariosRepository.findOne({ where: { email } });
     if (!user) {
-      throw new UnauthorizedException('Not valid credentials - email');
-    }
-    if (password !== user.password) {
-      throw new UnauthorizedException('Not valid credentials - password');
+      throw new UnauthorizedException("Not valid credentials - email"); 
     }
 
-    const { password: _, ...rest } = user;
+    if (!bcryptjs.compareSync( password, user.password )) {
+      throw new UnauthorizedException("Not valid credentials - password"); 
+    }
+
+    const { password: _, created_at, updated_at, ...rest } = user;
 
     return {
       user: rest,
-      token: this.getJwt({id: user.id_usuario})
+      token: this.getJwt({ id: user.id_usuario })
     }
-
   }
+
+  findAll(): Promise<Usuarios[]> {
+    return this.usuariosRepository.find();
+  }
+
+  async findUserById(id: number) {
+    const options: FindOneOptions<Usuarios> = {
+      where: { id_usuario: id }
+    };
+    const user = await this.usuariosRepository.findOne(options);
+    const { password, created_at, updated_at, email, ...rest } = user;
+    return rest;
+  }
+
 
   getJwt(payload: JwtPayload) {
     const token = this.jwtService.sign(payload);
