@@ -22,7 +22,7 @@ export class AuthService {
 
   async create(createUserDto: CreateUserDto): Promise<Usuarios> {
     try {
-      const { password, ...userData} = createUserDto;
+      const { password, ...userData } = createUserDto;
       const newUser = this.usuariosRepository.create({
         password: bcryptjs.hashSync(password, 10),
         ...userData
@@ -35,7 +35,7 @@ export class AuthService {
       console.log(error);
       
       if (error.code === '23505') {
-        throw new BadRequestException(`El correo que ingresaste ya esta registrado`)
+        throw new BadRequestException(`El numero telefonico que ingresaste ya esta registrado`)
       }
       throw new InternalServerErrorException('Something terrible happen!!')
     }
@@ -50,8 +50,8 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto) {
-    const { email, password } = loginDto;
-    const user = await this.usuariosRepository.findOne({ where: { email } });
+    const { numero_telefonico, password } = loginDto;
+    const user = await this.usuariosRepository.findOne({ where: { numero_telefonico } });
     if (!user) {
       throw new UnauthorizedException("Not valid credentials - email"); 
     }

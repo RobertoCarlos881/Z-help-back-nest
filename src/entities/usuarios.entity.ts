@@ -1,3 +1,4 @@
+import { DefaultUser } from "src/enum/defaultUser.enum";
 import { Roles } from "src/enum/roles.enum";
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -6,31 +7,25 @@ export class Usuarios {
     @PrimaryGeneratedColumn()
     id_usuario?: number;
 
-    @Column()
-    nombre: string;
+    @Column({type: 'enum', enum: DefaultUser, default: DefaultUser.nameDefault})
+    nombre?: string;
 
-    @Column()
-    apellido_paterno: string;
+    @Column({unique: true, type: 'enum', enum: DefaultUser, default: DefaultUser.emailDefault})
+    email?: string;
 
-    @Column()
-    apellido_materno: string;
+    @Column({type: 'enum', enum: DefaultUser, default: DefaultUser.institucionDefault})
+    institucion?: string;
+
+    @Column({type: 'enum', enum: DefaultUser, default: DefaultUser.identificadorDefault})
+    identificador_politecnico?: string;
 
     @Column({unique: true})
-    email: string;
-
-    @Column()
-    institucion: string;
-
-    @Column()
-    identificador_politecnico: string;
-
-    @Column()
     numero_telefonico: string;
 
     @Column()
     password?: string;
 
-    @Column()
+    @Column({type: 'enum', enum: DefaultUser, default: DefaultUser.fotoDefault})
     foto?: string;
 
     @Column({type: 'enum', enum: Roles, default: Roles.user})
