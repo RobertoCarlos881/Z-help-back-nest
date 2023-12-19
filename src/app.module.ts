@@ -7,6 +7,11 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { Actividad, ActividadCercana, Contactos, Instituciones, Publicacion, PublicacionesGuardadas, RespuestaPublicacion, Usuarios } from './entities/index';
 import { JwtModule } from '@nestjs/jwt';
+import { ForoModule } from './foro/foro.module';
+import { ContactosModule } from './contactos/contactos.module';
+import { LocalizacionModule } from './localizacion/localizacion.module';
+import { PerfilModule } from './perfil/perfil.module';
+import { ActividadModule } from './actividad/actividad.module';
 
 @Module({
   imports: [
@@ -28,7 +33,17 @@ import { JwtModule } from '@nestjs/jwt';
       signOptions: { expiresIn: '8760h'}
     }),
 
-    AuthModule
+    AuthModule,
+
+    ForoModule,
+
+    ContactosModule,
+
+    LocalizacionModule,
+
+    PerfilModule,
+
+    ActividadModule
   ],
   controllers: [AppController],
   providers: [AppService],
