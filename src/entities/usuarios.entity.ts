@@ -1,6 +1,6 @@
-import { DefaultUser } from "src/enum/defaultUser.enum";
-import { Roles } from "src/enum/roles.enum";
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { DefaultUser, Roles } from "src/enum/index";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { RespuestaPublicacion, Publicacion, Contactos, Actividad, ActividadCercana, PublicacionesGuardadas } from "./index";
 
 @Entity()
 export class Usuarios {
@@ -36,4 +36,22 @@ export class Usuarios {
 
     @UpdateDateColumn()
     updated_at?: Date;
+
+    @OneToMany(() => RespuestaPublicacion, (respuestaPublicacion) => respuestaPublicacion.usuarios)
+    respuestaPublicaciones: RespuestaPublicacion[]
+
+    @OneToMany(() => Publicacion, (publicacion) => publicacion.usuarios)
+    publicaciones: Publicacion[]
+
+    @OneToMany(() => Contactos, (contactos) => contactos.usuarios)
+    contactos: Contactos[]
+
+    @OneToMany(() => Actividad, (actividad) => actividad.usuarios)
+    actividades: Actividad[]
+
+    @OneToMany(() => ActividadCercana, (actividadCercana) => actividadCercana.usuarios)
+    actividadesCercanas: ActividadCercana[]
+
+    @OneToMany(() => PublicacionesGuardadas, (publicacionesGuardadas) => publicacionesGuardadas.usuarios)
+    publicacionesGuardadas: PublicacionesGuardadas[]
 }

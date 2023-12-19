@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Usuarios, RespuestaPublicacion, PublicacionesGuardadas } from "./index";
 
 @Entity()
 export class Publicacion {
@@ -23,11 +24,12 @@ export class Publicacion {
     @UpdateDateColumn()
     updated_at: Date;
 
-    // @Column()
-    // fecha_publicacion time not null,
+    @ManyToOne(() => Usuarios, (usuarios) => usuarios.publicaciones)
+    usuarios: Usuarios
 
-    // @Column()
-    // id_usuario: number;
-    // @Column()
-    // CONSTRAINT PublicacionesID FOREIGN KEY (id_usuario) REFERENCES Usuarios (id)
+    @OneToMany(() => RespuestaPublicacion, (repuestaPublicacion) => repuestaPublicacion.publicaciones)
+    respuestaPublicaciones: RespuestaPublicacion[]
+
+    @OneToMany(() => PublicacionesGuardadas, (publicacionesGuardadas) => publicacionesGuardadas.publicaciones)
+    publicacionesGuardadas: PublicacionesGuardadas[]
 }

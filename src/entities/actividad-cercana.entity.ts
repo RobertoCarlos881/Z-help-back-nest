@@ -1,4 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Usuarios } from "./usuarios.entity";
+import { Actividad } from "./actividad.entity";
 
 @Entity()
 export class ActividadCercana {
@@ -11,8 +13,9 @@ export class ActividadCercana {
     @UpdateDateColumn()
     updated_at: Date;
 
-    // id_usuario int not null,
-    // id_actividadprincipal int not null,
-    // CONSTRAINT AlertaID FOREIGN KEY (id_usuario) REFERENCES Usuarios (id),
-    // CONSTRAINT ActividadesID FOREIGN KEY (id_actividadprincipal) REFERENCES Actividad (id_actividad)
+    @ManyToOne(() => Usuarios, (usuarios) => usuarios.actividadesCercanas)
+    usuarios: Usuarios
+
+    @ManyToOne(() => Actividad, (actividad) => actividad.actividadesCercanas)
+    actividad: Actividad
 }

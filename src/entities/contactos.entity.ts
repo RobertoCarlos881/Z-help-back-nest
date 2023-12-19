@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Usuarios } from "./usuarios.entity";
 
 @Entity()
 export class Contactos {
@@ -11,6 +12,6 @@ export class Contactos {
     @Column()
     numero_contacto: string;
 
-    // id_usuario int not null,
-    // CONSTRAINT ContactosID FOREIGN KEY (id_usuario) REFERENCES Usuarios (id)
+    @ManyToOne(() => Usuarios, (usuarios) => usuarios.contactos)
+    usuarios: Usuarios
 }
