@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Usuarios } from "./usuarios.entity";
 import { Publicacion } from "./publicaciones.entity";
 
@@ -26,8 +26,10 @@ export class RespuestaPublicacion {
     updated_at: Date;
 
     @ManyToOne(() => Usuarios, (usuarios) => usuarios.respuestaPublicaciones)
+    @JoinColumn({ name: 'id_usuarios' })
     usuarios: Usuarios
 
     @ManyToOne(() => Publicacion, (publicacion) => publicacion.respuestaPublicaciones)
+    @JoinColumn({ name: 'id_publicacion' })
     publicaciones: Publicacion
 }

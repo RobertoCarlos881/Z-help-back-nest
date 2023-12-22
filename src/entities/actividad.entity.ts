@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Usuarios } from "./usuarios.entity";
 import { ActividadCercana } from "./actividad-cercana.entity";
 
@@ -26,6 +26,7 @@ export class Actividad {
     updated_at: Date;
 
     @ManyToOne(() => Usuarios, (usuarios) => usuarios.actividades)
+    @JoinColumn({ name: 'id_usuario' })
     usuarios: Usuarios
 
     @OneToMany(() => ActividadCercana, (actividadCercana) => actividadCercana.actividad)

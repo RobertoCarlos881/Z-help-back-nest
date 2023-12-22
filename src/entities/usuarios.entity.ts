@@ -10,7 +10,7 @@ export class Usuarios {
     @Column({type: 'enum', enum: DefaultUser, default: DefaultUser.nameDefault})
     nombre?: string;
 
-    @Column({unique: true, type: 'enum', enum: DefaultUser, default: DefaultUser.emailDefault})
+    @Column({type: 'enum', enum: DefaultUser, default: DefaultUser.emailDefault})
     email?: string;
 
     @Column({type: 'enum', enum: DefaultUser, default: DefaultUser.institucionDefault})

@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Usuarios } from "./usuarios.entity";
 import { Publicacion } from "./publicaciones.entity";
 
@@ -8,8 +8,10 @@ export class PublicacionesGuardadas {
     id_publicacionesguardadas: number;
 
     @ManyToOne(() => Usuarios, (usuarios) => usuarios.publicacionesGuardadas)
+    @JoinColumn({ name: 'id_publicacionesguardadas' })
     usuarios: Usuarios
 
     @ManyToOne(() => Publicacion, (publicacion) => publicacion.publicacionesGuardadas)
+    @JoinColumn({ name: 'id_publicacion' })
     publicaciones: Publicacion
 }

@@ -34,15 +34,10 @@ import { ActividadModule } from './actividad/actividad.module';
     }),
 
     AuthModule,
-
     ForoModule,
-
     ContactosModule,
-
     LocalizacionModule,
-
     PerfilModule,
-
     ActividadModule
   ],
   controllers: [AppController],
