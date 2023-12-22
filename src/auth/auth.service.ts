@@ -29,7 +29,7 @@ export class AuthService {
       });
   
       await this.usuariosRepository.save(newUser);
-      const { password: _, created_at, updated_at, email, institucion, identificador_politecnico, nombre, ...user } = newUser;
+      const { password: _, created_at, updated_at, email, institucion, identificador_politecnico, ...user } = newUser;
       return user;
     } catch (error) {    
       console.log(error);
@@ -60,7 +60,7 @@ export class AuthService {
       throw new UnauthorizedException("Not valid credentials - password"); 
     }
 
-    const { password: _, created_at, updated_at, email, institucion, identificador_politecnico, nombre, ...rest } = user;
+    const { password: _, created_at, updated_at, email, institucion, identificador_politecnico, ...rest } = user;
 
     return {
       user: rest,

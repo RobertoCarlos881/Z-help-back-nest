@@ -7,16 +7,16 @@ export class Usuarios {
     @PrimaryGeneratedColumn()
     id_usuario?: number;
 
-    @Column({type: 'enum', enum: DefaultUser, default: DefaultUser.nameDefault})
+    @Column({default: "Usuario Nuevo"})
     nombre?: string;
 
-    @Column({type: 'enum', enum: DefaultUser, default: DefaultUser.emailDefault})
+    @Column({default: "usuarionuevo@gmail.com"})
     email?: string;
 
-    @Column({type: 'enum', enum: DefaultUser, default: DefaultUser.institucionDefault})
+    @Column({default: "Instituto Politecnico Nacional"})
     institucion?: string;
 
-    @Column({type: 'enum', enum: DefaultUser, default: DefaultUser.identificadorDefault})
+    @Column({default: "0000000000"})
     identificador_politecnico?: string;
 
     @Column({unique: true})
@@ -25,7 +25,7 @@ export class Usuarios {
     @Column()
     password?: string;
 
-    @Column({type: 'enum', enum: DefaultUser, default: DefaultUser.fotoDefault})
+    @Column({default: "foto.png"})
     foto?: string;
 
     @Column({type: 'enum', enum: Roles, default: Roles.user})
