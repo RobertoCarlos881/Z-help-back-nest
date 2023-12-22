@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ActividadService } from './actividad.service';
 import { CreateActividadDto } from './dto/create-actividad.dto';
-import { UpdateActividadDto } from './dto/update-actividad.dto';
 
 @Controller('actividad')
 export class ActividadController {
@@ -12,23 +11,18 @@ export class ActividadController {
     return this.actividadService.create(createActividadDto);
   }
 
+  @Get(':id')
+  findAllById(@Param('id') id: string) {
+    return this.actividadService.findAllByUser(+id);
+  }
+
   @Get()
   findAll() {
     return this.actividadService.findAll();
   }
 
-  @Get(':id')
+  @Get('actividad/:id')
   findOne(@Param('id') id: string) {
     return this.actividadService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateActividadDto: UpdateActividadDto) {
-    return this.actividadService.update(+id, updateActividadDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.actividadService.remove(+id);
   }
 }

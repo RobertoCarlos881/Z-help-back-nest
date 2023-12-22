@@ -1,26 +1,66 @@
 import { Injectable } from '@nestjs/common';
 import { CreateActividadDto } from './dto/create-actividad.dto';
-import { UpdateActividadDto } from './dto/update-actividad.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Actividad, Usuarios } from 'src/entities';
+import { FindOneOptions, Repository } from 'typeorm';
 
 @Injectable()
 export class ActividadService {
-  create(createActividadDto: CreateActividadDto) {
-    return 'This action adds a new actividad';
+  constructor(
+    @InjectRepository(Actividad)
+    private readonly actividadRepository: Repository<Actividad>,
+  ) {}
+  
+  async create(createActividadDto: CreateActividadDto): Promise<Actividad> {
+    const nuevaActividad = new Actividad();
+    nuevaActividad.latitud = createActividadDto.latitud;
+    nuevaActividad.longitud = createActividadDto.longitud;
+
+    const usuarioRelacionado = new Usuarios();
+    usuarioRelacionado.id_usuario = createActividadDto.id_usuario;
+    nuevaActividad.usuarios = usuarioRelacionado;
+
+    return await this.actividadRepository.save(nuevaActividad);
   }
 
-  findAll() {
-    return `This action returns all actividad`;
+  async findAllByUser(id: number): Promise<any[]> {
+    const options: FindOneOptions<Actividad> = {
+      relations: ['usuarios'],
+      where: { usuarios: {id_usuario: id} },
+    };
+    const actividades = await this.actividadRepository.find(options);
+
+    const actividadesConAccionTrue = actividades.filter((actividad) => actividad.accion === true);
+    
+    const resultado = actividadesConAccionTrue.map(actividad => ({
+      id_actividad: actividad.id_actividad,
+      latitud: actividad.latitud,
+      longitud: actividad.longitud,
+      created_at: actividad.created_at,
+      id_usuario: actividad.usuarios ? actividad.usuarios.id_usuario : null,
+    }));
+
+    return resultado;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} actividad`;
+  async findOne(id: number): Promise<Actividad> {
+    const options: FindOneOptions<Actividad> = {
+      where: { id_actividad: id }
+    };
+    const user = await this.actividadRepository.findOne(options);
+    return user;
   }
 
-  update(id: number, updateActividadDto: UpdateActividadDto) {
-    return `This action updates a #${id} actividad`;
-  }
+  async findAll(): Promise<any[]> {
+    const actividades = await this.actividadRepository.find();
 
-  remove(id: number) {
-    return `This action removes a #${id} actividad`;
+    const actividadesConAccionTrue = actividades.filter((actividad) => actividad.activo === true);
+    
+    const resultado = actividadesConAccionTrue.map(actividad => ({
+      latitud: actividad.latitud,
+      longitud: actividad.longitud,
+    }));
+
+    return resultado;
   }
 }

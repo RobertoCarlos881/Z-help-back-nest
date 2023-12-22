@@ -12,6 +12,7 @@ import { ContactosModule } from './contactos/contactos.module';
 import { LocalizacionModule } from './localizacion/localizacion.module';
 import { PerfilModule } from './perfil/perfil.module';
 import { ActividadModule } from './actividad/actividad.module';
+import { ActualizarService } from './actividad/services/actualizar.service';
 
 @Module({
   imports: [
@@ -43,4 +44,5 @@ import { ActividadModule } from './actividad/actividad.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+}
