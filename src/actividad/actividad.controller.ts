@@ -25,4 +25,6 @@ export class ActividadController {
   findOne(@Param('id') id: string) {
     return this.actividadService.findOne(+id);
   }
+
+  
 }
