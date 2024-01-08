@@ -16,7 +16,7 @@ export class PerfilController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string) {  
     return this.perfilService.remove(+id);
   }
 }

@@ -47,18 +47,8 @@ export class ContactosService {
     }));
   }
 
-  async update(id: number, updateContactoDto: UpdateContactoDto): Promise<Contactos> {
-    const options: FindOneOptions<Contactos> = {
-      where: { id_contacto: id }
-    };
-    const user = await this.contactosRepository.findOne(options);
-
-    await this.contactosRepository.update(user, updateContactoDto);
-    return user;
-  }
-
   async remove(id: number): Promise<any> {
     await this.contactosRepository.delete(id);
-    return "El contacto a sido eliminado";
+    return true;
   }
 }

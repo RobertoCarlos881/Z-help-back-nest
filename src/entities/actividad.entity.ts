@@ -10,11 +10,11 @@ export class Actividad {
     @Column({default: true})
     accion?: boolean;
 
-    @Column()
-    latitud: string;
+    @Column({ type: 'decimal', precision: 10, scale: 7 })
+    latitud: number;
 
-    @Column()
-    longitud: string;
+    @Column({ type: 'decimal', precision: 10, scale: 7 })
+    longitud: number;
     
     @Column({default: true})
     activo?: boolean;

@@ -38,6 +38,6 @@ export class PerfilService {
 
   async remove(id: number): Promise<any> {
     await this.usuariosRepository.delete(id);
-    return "El contacto a sido eliminado";
+    return true;
   }
 }

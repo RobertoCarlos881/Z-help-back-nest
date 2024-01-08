@@ -1,13 +1,16 @@
-import { IsInt, IsPositive, IsString } from "class-validator";
+import { IsBoolean, IsInt, IsNumber, IsPositive, IsString } from "class-validator";
 
 export class CreateActividadDto {
-    @IsString()
-    latitud: string;
+    @IsNumber()
+    latitud: number;
 
-    @IsString()
-    longitud: string;
+    @IsNumber()
+    longitud: number;
 
     @IsInt()
     @IsPositive()
     id_usuario: number;
+
+    @IsBoolean()
+    accion: boolean;
 }

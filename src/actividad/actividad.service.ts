@@ -15,6 +15,7 @@ export class ActividadService {
     const nuevaActividad = new Actividad();
     nuevaActividad.latitud = createActividadDto.latitud;
     nuevaActividad.longitud = createActividadDto.longitud;
+    nuevaActividad.accion = createActividadDto.accion;
 
     const usuarioRelacionado = new Usuarios();
     usuarioRelacionado.id_usuario = createActividadDto.id_usuario;
@@ -59,6 +60,8 @@ export class ActividadService {
     const resultado = actividadesConAccionTrue.map(actividad => ({
       latitud: actividad.latitud,
       longitud: actividad.longitud,
+      accion: actividad.accion,
+      creado: actividad.created_at
     }));
 
     return resultado;

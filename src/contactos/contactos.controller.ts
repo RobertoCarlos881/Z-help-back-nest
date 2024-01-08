@@ -22,13 +22,10 @@ export class ContactosController {
     return this.contactosService.findOne(+id);
   }
 
-  @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateContactoDto: UpdateContactoDto) {
-    return this.contactosService.update(+id, updateContactoDto);
-  }
-
   @Delete(':id')
   async remove(@Param('id') id: string) {
+    console.log("Contacto eliminado");
+    
     return this.contactosService.remove(+id);
   }
 }
