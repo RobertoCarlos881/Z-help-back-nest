@@ -12,10 +12,11 @@ import { ContactosModule } from './contactos/contactos.module';
 import { LocalizacionModule } from './localizacion/localizacion.module';
 import { PerfilModule } from './perfil/perfil.module';
 import { ActividadModule } from './actividad/actividad.module';
-import { ActualizarService } from './actividad/services/actualizar.service';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: process.env.DIALEG_DATABASE as any,
@@ -45,4 +46,5 @@ import { ActualizarService } from './actividad/services/actualizar.service';
   providers: [AppService],
 })
 export class AppModule {
+  
 }
