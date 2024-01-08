@@ -20,39 +20,29 @@ export class ActivityCronJob {
                 activo: true,
             },
         });
-
+    
         if (activities.length > 0) {
             const now = new Date();
-
+    
             activities.forEach(async (activity) => {
                 const fechaYHoraString = activity.created_at;
                 console.log(fechaYHoraString);
-                const fechaYHora = new Date(fechaYHoraString);
-
-                // Obtener la hora, minutos y segundos
-                const horas = fechaYHora.getHours();
-                const minutos = fechaYHora.getMinutes();
-                const segundos = fechaYHora.getSeconds();
-                const horaFormateada = `${horas}:${minutos}:${segundos}`;
-                console.log(horaFormateada);
+                
+                const activityTimestamp = new Date(fechaYHoraString).getTime();
+            const timeDiff = Math.floor((now.getTime() - activityTimestamp) / (1000 * 60));
+    
                 console.log(now);
-                
-                
-
-                // Calcular la diferencia de tiempo en minutos
-                //const timeDiff = Math.abs(now.getHours() - Number(createdAtString.split(':')[0]));
-                //console.log(timeDiff);
-
-
-                // if (timeDiff > 15) {
-                //     // Si ha pasado más de 15 minutos, actualiza la propiedad activo a false
-                //     activity.activo = false;
-                //     await this.actividadRepository.save(activity);
-                // }
+                console.log(`Time difference: ${timeDiff} minutes`);
+    
+                if (timeDiff > 15) {
+                    activity.activo = false;
+                    await this.actividadRepository.save(activity);
+                }
             });
         } else {
             console.log('No se encontró ninguna actividad con activo: true');
         }
     }
+    
 }
 
