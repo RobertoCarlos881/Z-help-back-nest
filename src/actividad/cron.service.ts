@@ -12,7 +12,7 @@ export class ActivityCronJob {
         private readonly actividadRepository: Repository<Actividad>
     ) { }
 
-    @Cron(CronExpression.EVERY_SECOND/*EVERY_MINUTE*/)
+    @Cron(CronExpression.EVERY_MINUTE)
     public async execute() {
         console.log("Me estoy ejecutando");
         const activities = await this.actividadRepository.find({
