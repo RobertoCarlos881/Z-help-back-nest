@@ -26,13 +26,9 @@ export class ActivityCronJob {
     
             activities.forEach(async (activity) => {
                 const fechaYHoraString = activity.created_at;
-                console.log(fechaYHoraString);
                 
                 const activityTimestamp = new Date(fechaYHoraString).getTime();
-            const timeDiff = Math.floor((now.getTime() - activityTimestamp) / (1000 * 60));
-    
-                console.log(now);
-                console.log(`Time difference: ${timeDiff} minutes`);
+                const timeDiff = Math.floor((now.getTime() - activityTimestamp) / (1000 * 60));
     
                 if (timeDiff > 15) {
                     activity.activo = false;
