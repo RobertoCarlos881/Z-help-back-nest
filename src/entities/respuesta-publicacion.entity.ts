@@ -19,6 +19,9 @@ export class RespuestaPublicacion {
     @Column()
     texto_publicacion: string;
 
+    @Column({default: false})
+    incognito: boolean;
+
     @CreateDateColumn()
     created_at: Date;
 

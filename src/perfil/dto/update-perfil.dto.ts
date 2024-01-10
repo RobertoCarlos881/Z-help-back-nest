@@ -14,10 +14,4 @@ export class UpdatePerfilDto extends PartialType(CreatePerfilDto) {
 
     @IsString()
     identificador_politecnico: string;
-
-    @IsString()
-    numero_telefonico: string;
-
-    @IsString()
-    foto: string;
 }
