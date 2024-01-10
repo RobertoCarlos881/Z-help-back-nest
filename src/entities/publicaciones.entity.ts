@@ -6,7 +6,7 @@ export class Publicacion {
     @PrimaryGeneratedColumn()
     id_publicaciones: number;
 
-    @Column()
+    @Column({default: "foto.jpg"})
     archivo_imagen: string;
 
     @Column()
@@ -18,7 +18,7 @@ export class Publicacion {
     @Column()
     texto_publicacion: string;
 
-    @Column({default: false})
+    @Column()
     incognito: boolean;
 
     @CreateDateColumn()

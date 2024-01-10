@@ -1,34 +1,52 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ForoService } from './foro.service';
-import { CreateForoDto } from './dto/create-foro.dto';
-import { UpdateForoDto } from './dto/update-foro.dto';
+import { CreatePublicacionDto } from './dto/create-publicacion.dto';
+import { CreateRespuestaPublicacionDto } from './dto/create-respuesta-publicacion.dto';
+import { CreatePublicacionGuardadaDto } from './dto/create-guardads.dto';
 
 @Controller('foro')
 export class ForoController {
   constructor(private readonly foroService: ForoService) {}
 
-  @Post()
-  create(@Body() createForoDto: CreateForoDto) {
-    return this.foroService.create(createForoDto);
+  @Post('publicacion')
+  createPublicacion(@Body() createPublicacionDto: CreatePublicacionDto) {
+    return this.foroService.createPublicaciones(createPublicacionDto);
   }
 
-  @Get()
-  findAll() {
-    return this.foroService.findAll();
+  @Post('comentario')
+  createComentarioPublicacion(@Body() createRespuestaPublicacionDto: CreateRespuestaPublicacionDto) {
+    return this.foroService.createComentariosPublicaciones(createRespuestaPublicacionDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.foroService.findOne(+id);
+  @Post('guardadas')
+  createPublicacionGuardada(@Body() createPublicacionGuardadaDto: CreatePublicacionGuardadaDto) {
+    return this.foroService.createPublicacionesGuardadas(createPublicacionGuardadaDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateForoDto: UpdateForoDto) {
-    return this.foroService.update(+id, updateForoDto);
+  @Get('publicacion')
+  findAllPublications() {
+    return this.foroService.findAllPublicaciones();
   }
 
-  @Delete(':id')
+  @Get('comentario/:id_publicacion')
+  async findByIdComentariosPublications(@Param('id_publicacion') id_publicacion: number) {
+    const publicacionesComentadas = await this.foroService.findByIdComentariosPublicaciones(id_publicacion);
+    return publicacionesComentadas;
+  }
+
+  @Get('publicacion/:id')
+  findOnePublications(@Param('id') id: string) {
+    return this.foroService.findOnePublicaciones(+id);
+  }
+
+  @Get('guardadas/:id_user')
+  async findOnePublicationsGuardadas(@Param('id_user') id_user: number) {
+    const publicacionesGuardadas = await this.foroService.findAllPublicacionesGuardadas(id_user);
+    return publicacionesGuardadas;
+  }
+
+  @Delete('publicacion/:id')
   remove(@Param('id') id: string) {
-    return this.foroService.remove(+id);
+    return this.foroService.removePublicaciones(+id);
   }
 }

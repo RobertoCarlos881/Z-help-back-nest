@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ContactosService } from './contactos.service';
 import { CreateContactoDto } from './dto/create-contacto.dto';
-import { UpdateContactoDto } from './dto/update-contacto.dto';
 
 @Controller('contactos')
 export class ContactosController {
@@ -23,9 +22,7 @@ export class ContactosController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    console.log("Contacto eliminado");
-    
+  async remove(@Param('id') id: string) {    
     return this.contactosService.remove(+id);
   }
 }
