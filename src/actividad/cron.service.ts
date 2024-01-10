@@ -14,7 +14,6 @@ export class ActivityCronJob {
 
     @Cron(CronExpression.EVERY_MINUTE)
     public async execute() {
-        console.log("Me estoy ejecutando");
         const activities = await this.actividadRepository.find({
             where: {
                 activo: true,
