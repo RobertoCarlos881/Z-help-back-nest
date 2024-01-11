@@ -83,6 +83,7 @@ export class ForoService {
       texto_publicacion: publicacion.texto_publicacion,
       incognito: publicacion.incognito,
       created_at: publicacion.created_at,
+      id_respuestapublicaciones: publicacion.id_respuestapublicaciones,
       id_publicacion: publicacion.publicaciones ? publicacion.publicaciones.id_publicaciones : null,
       nombre: publicacion.usuarios ? publicacion.usuarios.nombre : null,
     }));
@@ -101,6 +102,7 @@ export class ForoService {
       texto_publicacion: publicacion.texto_publicacion,
       incognito: publicacion.incognito,
       created_at: publicacion.created_at,
+      id_publicacion: publicacion.id_publicaciones,
       id_usuario: publicacion.usuarios ? publicacion.usuarios.id_usuario : null,
     }));
   }
@@ -123,6 +125,7 @@ export class ForoService {
         texto_publicacion: publicacion ? publicacion.texto_publicacion : null,
         incognito: publicacion ? publicacion.incognito : null,
         created_at: publicacion ? publicacion.created_at : null,
+        id_publicacion: publicacion ? publicacion.id_publicaciones : null,
         nombre: usuario ? usuario.nombre : null,
       };
     });
