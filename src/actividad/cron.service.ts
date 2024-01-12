@@ -29,7 +29,7 @@ export class ActivityCronJob {
                 const activityTimestamp = new Date(fechaYHoraString).getTime();
                 const timeDiff = Math.floor((now.getTime() - activityTimestamp) / (1000 * 60));
     
-                if (timeDiff > 15) {
+                if (timeDiff > 40) {
                     activity.activo = false;
                     await this.actividadRepository.save(activity);
                 }
