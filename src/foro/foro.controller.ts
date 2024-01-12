@@ -23,9 +23,9 @@ export class ForoController {
     return this.foroService.createPublicacionesGuardadas(createPublicacionGuardadaDto);
   }
 
-  @Get('publicacion')
-  findAllPublications() {
-    return this.foroService.findAllPublicaciones();
+  @Get('publicacion/:id')
+  findAllPublications(@Param('id') id: string) {
+    return this.foroService.findAllPublicaciones(+id);
   }
 
   @Get('comentario/:id_publicacion')
@@ -34,7 +34,7 @@ export class ForoController {
     return publicacionesComentadas;
   }
 
-  @Get('publicacion/:id')
+  @Get('publicacionuser/:id')
   findOnePublications(@Param('id') id: string) {
     return this.foroService.findOnePublicaciones(+id);
   }
@@ -48,5 +48,10 @@ export class ForoController {
   @Delete('publicacion/:id')
   remove(@Param('id') id: string) {
     return this.foroService.removePublicaciones(+id);
+  }
+
+  @Delete('guardadas/:id')
+  removeGuardadas(@Param('id') id: string) {
+    return this.foroService.removePublicacionesGuardadas(+id);
   }
 }

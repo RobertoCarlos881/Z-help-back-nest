@@ -63,12 +63,30 @@ export class ForoService {
     return await this.publicacionesGuardadasRepository.save(nuevapUblicacionGuardada);
   }
 
-  async findAllPublicaciones(): Promise<Publicacion[]> { //todo
-    const publicaciones = await this.publicacionRepository.find();
-
-    return publicaciones;
+  async findAllPublicaciones(userId: number): Promise<any[]> {
+    const publicaciones = await this.publicacionRepository.createQueryBuilder("publicacion")
+      .leftJoinAndSelect("publicacion.usuarios", "usuarios")
+      .leftJoinAndSelect("publicacion.publicacionesGuardadas", "publicacionesGuardadas", "publicacionesGuardadas.usuarios = :userId", { userId })
+      .addSelect("publicacionesGuardadas.id_publicacionesguardadas")
+      .getMany();
+  
+    const publicacionesConNombreUsuario = publicaciones.map(publicacion => ({
+      id_publicaciones: publicacion.id_publicaciones,
+      latitud: publicacion.latitud,
+      longitud: publicacion.longitud,
+      texto_publicacion: publicacion.texto_publicacion,
+      incognito: publicacion.incognito,
+      created_at: publicacion.created_at,
+      usuarios: {
+        nombre: publicacion.usuarios.nombre,
+      },
+      publicacionesGuardadas: publicacion.publicacionesGuardadas && publicacion.publicacionesGuardadas.length > 0,
+      id_publicacionesguardadas: publicacion.publicacionesGuardadas && publicacion.publicacionesGuardadas.length > 0 ? publicacion.publicacionesGuardadas[0].id_publicacionesguardadas : null,
+    }));
+  
+    return publicacionesConNombreUsuario;
   }
-
+  
   async findByIdComentariosPublicaciones(id_publicacion: number): Promise<any[]> { //comentarios
     const options: FindOneOptions<RespuestaPublicacion> = {
       relations: ['usuarios.publicaciones', 'publicaciones'],
@@ -109,7 +127,7 @@ export class ForoService {
 
   async findAllPublicacionesGuardadas(id_user: number): Promise<any[]> {
     const options: FindManyOptions<PublicacionesGuardadas> = {
-      relations: ['publicaciones', 'publicaciones.usuarios'],
+      relations: ['publicaciones', 'publicaciones.usuarios', 'usuarios'],
       where: { usuarios: { id_usuario: id_user } },
     };
   
@@ -127,12 +145,18 @@ export class ForoService {
         created_at: publicacion ? publicacion.created_at : null,
         id_publicacion: publicacion ? publicacion.id_publicaciones : null,
         nombre: usuario ? usuario.nombre : null,
+        id_publicacionesguardadas: publicacionGuardada.id_publicacionesguardadas
       };
     });
   }
 
   async removePublicaciones(id: number): Promise<any> {
     await this.publicacionRepository.delete(id);
+    return true;
+  }
+
+  async removePublicacionesGuardadas(id: number): Promise<any> {
+    await this.publicacionesGuardadasRepository.delete(id);
     return true;
   }
 }
